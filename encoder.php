@@ -1,14 +1,14 @@
 <?php
 ini_set('display_errors', 1);
-function encode($in = './input/', $out= './output/', $word_list = [], $exclude = [], $prefix = "dsyafaatul"){
+function encode($path = './input/', $in = './input/', $out= './output/', $word_list = [], $exclude = [], $prefix = "dsyafaatul"){
     $input = realpath($in).DIRECTORY_SEPARATOR;
     $output = realpath($out).DIRECTORY_SEPARATOR;
 
     $algos = hash_algos();
-    if($path = realpath($in).DIRECTORY_SEPARATOR){
+    if($path = realpath($path).DIRECTORY_SEPARATOR){
         foreach(scandir($path) as $key => $filename){
             if(in_array($filename, array_merge([".", ".."], $exclude))) continue;
-            if(is_dir($path.$filename)) encode($path.$filename, $out, $word_list, $exclude);
+            if(is_dir($path.$filename)) encode($path.$filename, $input, $output, $word_list, $exclude);
             if(file_exists($path.$filename) && pathinfo($path.$filename, PATHINFO_EXTENSION) == 'php'){
                 $file = file($path.$filename);
                 $file_implode = implode('', $file);
@@ -78,4 +78,4 @@ function encode($in = './input/', $out= './output/', $word_list = [], $exclude =
         }
     }
 }
-encode('./input/', './output/', ["Assalamualaikum", "Halo", "Punteun", "Bonjour", "Hola", "Euy", "Sampurasun"]);
+encode('./input/', './input/', './output/', ["Assalamualaikum", "Halo", "Punteun", "Bonjour", "Hola", "Euy", "Sampurasun"]);
